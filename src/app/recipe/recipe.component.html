@@ -1,15 +1,10 @@
 <div class="conatiner">
   <div class="row">
-    <div class="col-md-3">
-        <app-recipe-list (ListToDetailRecipe)="selectedRecipe = $event"></app-recipe-list>
-    </div>
     <div class="col-md-5">
-        <app-recipe-detail 
-        *ngIf="selectedRecipe; else infoText"
-        [recipeDetail]="selectedRecipe"></app-recipe-detail>
-        <ng-template #infoText>
-          <p>Nothing Selected</p>
-        </ng-template>
+        <app-recipe-list></app-recipe-list>
+    </div>
+    <div class="col-md-7">
+        <router-outlet></router-outlet>
     </div>
   </div>
 </div>
