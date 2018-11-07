@@ -31,7 +31,7 @@ export class RecipeEditComponent implements OnInit {
     let recipeImagePath = '';
     let recipeDescription = '';
     // tslint:disable-next-line:prefer-const
-    let recipeIngredients = new FormArray([]);
+    let recipeIngredients = new FormArray([]);  // TO store the ingredients needed for a recipe,a form array is used
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
@@ -39,6 +39,7 @@ export class RecipeEditComponent implements OnInit {
       recipeImagePath = recipe.imagePath;
       recipeDescription = recipe.description;
       if (recipe['ingredients']) {
+        // If the recipe has got ingredients,a seperate form group for ingredient name and amount is created and populated with details
         // tslint:disable-next-line:prefer-const
         for (let ingredient of recipe.ingredients) {
           recipeIngredients.push(new FormGroup({
@@ -48,6 +49,7 @@ export class RecipeEditComponent implements OnInit {
         }
       }
     }
+    // Create a new formgroup with form controls and sync it with html code
     this.recipeForm = new FormGroup({
       'name': new FormControl(recipeName, Validators.required),
       'imagePath': new FormControl(recipeImagePath, Validators.required),
@@ -57,6 +59,7 @@ export class RecipeEditComponent implements OnInit {
     });
   }
   onAddIngredient() {
+    // Get the ingredient array from recipeForm.Wrap it with <FormArray> to make it a array and push new ingredient to the array
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
       'name': new FormControl(null, Validators.required),
@@ -66,7 +69,8 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit() {
-
+    // Since our recipeForm has attributes(name,imagePath,description,ingredients) similar to our recipe model
+    // We can just push this.recipeForm.model to update our recipe model array.
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {

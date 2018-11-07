@@ -14,7 +14,10 @@ export class RecipeService {
           'https://blog.bufferapp.com/wp-content/uploads/2014/05/IMG_6424-1300x866.jpg',
           [new Ingredient('Nuts', 10), new Ingredient('Cake', 1)])
 ];
-
+setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+}
 getRecipes() {
     return this.recipes.slice();
 }
